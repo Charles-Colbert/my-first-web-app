@@ -33,16 +33,28 @@
         /* カードの設定 */
         .card {
             position: relative;
-            /* 共有ボタンの基準点になります */
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            /* 背景を少しだけ薄くして、後ろの透け具合をアップ */
+            background: rgba(255, 255, 255, 0.45); 
+            
+            /* ぼかしを少し強くして、より幻想的に */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            
             padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-radius: 24px;
+            
+            /* 【ここがポイント】内側に光の筋を、外側に柔らかい影を入れる */
+            box-shadow: 
+                inset 0 0 20px rgba(255, 255, 255, 0.3), /* 内側の光 */
+                0 15px 35px rgba(0, 0, 0, 0.15);      /* 外側の影 */
+            
+            /* 【ここがポイント】枠線を半透明にすると、背景の色が縁に回り込みます */
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            
             text-align: center;
             max-width: 350px;
             width: 85%;
+            transition: transform 0.3s ease; /* ついでに少し動く準備 */
         }
 
         /* 共有ボタン（右上のアイコン） */
@@ -283,6 +295,7 @@
 
 
 </html>
+
 
 
 
