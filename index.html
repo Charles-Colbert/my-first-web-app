@@ -242,12 +242,15 @@
         /* スマホ向けの調整 */
         @media (max-width: 480px) {
             .card {
-                padding: 1.5rem; /* 余白を少し削ってコンパクトに */
-                width: 90%;      /* 画面いっぱいに近くする */
+                padding: 1.5rem;
+                /* 余白を少し削ってコンパクトに */
+                width: 90%;
+                /* 画面いっぱいに近くする */
             }
 
             .icon {
-                width: 80px;     /* アイコンを少し小さく */
+                width: 80px;
+                /* アイコンを少し小さく */
                 height: 80px;
                 margin-bottom: 1rem;
             }
@@ -258,22 +261,49 @@
             }
 
             h1 {
-                font-size: 1.3rem; /* 名前を少し小さく */
+                font-size: 1.3rem;
+                /* 名前を少し小さく */
             }
 
             p {
-                font-size: 0.85rem; /* 説明文を少し小さく */
+                font-size: 0.85rem;
+                /* 説明文を少し小さく */
             }
 
             .btn {
-                padding: 10px;    /* ボタンを押しやすい高さに */
+                padding: 10px;
+                /* ボタンを押しやすい高さに */
                 font-size: 0.9rem;
                 margin: 8px 0;
             }
 
+            /* クレジット（壁紙の文字）をさらに小さく、位置を調整 */
+            .credit {
+                font-size: 0.55rem;
+                /* かなり小さく */
+                bottom: 5px;
+                left: 5px;
+                padding: 3px 6px;
+                max-width: 50%;
+                /* 長くなりすぎないように制限 */
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                /* 長い場合は「...」にする */
+            }
+
             .status-bar {
-                bottom: 10px;     /* 下のタグを少し詰める */
-                right: 10px;
+                bottom: 5px;
+                right: 5px;
+                gap: 4px;
+                /* タグ同士の隙間を狭く */
+            }
+
+            .tag {
+                font-size: 0.6rem;
+                /* タグの文字を小さく */
+                padding: 2px 6px;
+                /* タグ自体をコンパクトに */
             }
         }
     </style>
@@ -334,6 +364,7 @@
 
 
 </html>
+
 
 
 
