@@ -394,34 +394,58 @@
             }
         }
         // すでにあるSNS共有などのコードの下に追加
-        function updateClock() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            document.getElementById('time').textContent = `${hours}:${minutes}`;
-        }
+        // 1. 時間の更新（閲覧者のPC・スマホの時間）
+    　　function updateClock() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        document.getElementById('time').textContent = `${hours}:${minutes}`;
+    }
 
-        async function updateWeather() {
-            try {
-                // 東京の座標を例にしています
-                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=35.6895&longitude=139.6917&current_weather=true');
-                const data = await res.json();
-                const temp = data.current_weather.temperature;
-                document.getElementById('temp').textContent = `${Math.round(temp)}°C`;
-            } catch (e) {
-                console.error("天気情報の取得に失敗しました");
-            }
+    // 2. 位置情報を取得して天気を表示
+    function updateWeatherByLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                
+                try {
+                    const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+                    const data = await res.json();
+                    const temp = Math.round(data.current_weather.temperature);
+                    document.getElementById('temp').textContent = `${temp}°C`;
+                } catch (e) {
+                    document.getElementById('temp').textContent = "??°C";
+                }
+            }, () => {
+                // 位置情報が許可されなかった場合のデフォルト（東京など）
+                updateWeatherDefault();
+            });
+        } else {
+            updateWeatherDefault();
         }
+    }
 
-        setInterval(updateClock, 1000);
-        updateClock();
-        updateWeather();
+    // 位置情報が取れない時のための予備
+    async function updateWeatherDefault() {
+        try {
+            const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=35.6895&longitude=139.6917&current_weather=true');
+            const data = await res.json();
+            const temp = Math.round(data.current_weather.temperature);
+            document.getElementById('temp').textContent = `${temp}°C`;
+        } catch (e) {}
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+    updateWeatherByLocation();
     </script>
 
 </body>
 
 
 </html>
+
 
 
 
