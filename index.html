@@ -308,6 +308,33 @@
                 /* タグ自体をコンパクトに */
             }
         }
+        /* カードの底にピタッと固定する設定 */
+        .card-footer-fixed {
+            position: absolute;
+            bottom: 12px;  /* 元の built-by の高さ */
+            left: 0;
+            right: 0;
+            padding: 0 15px; /* 左右の余白 */
+            display: flex;
+            justify-content: space-between; /* 左と右に振り分け */
+            pointer-events: none; /* ボタンの邪魔をしない */
+        }
+
+        .built-by-left {
+            font-size: 0.65rem;
+            font-family: 'Noto Sans JP', sans-serif;
+            letter-spacing: 0.5px;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
+
+        .weather-clock-right {
+            font-size: 0.65rem;
+            font-family: 'Noto Sans JP', sans-serif;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
     </style>
 </head>
 
@@ -338,7 +365,12 @@
             <a href="https://open.spotify.com" class="btn">Spotify</a>
             <a href="mailto:test0210@icloud.com" class="btn">Contact</a>
         </div>
-        <div class="built-by">Built by Manaka</div>
+        <div class="card-footer-fixed">
+            <div class="built-by-left">Built by Manaka</div>
+            <div class="weather-clock-right">
+                <span id="temp">--°C</span> • <span id="time">00:00</span>
+            </div>
+        </div>
     </div>
 
     </div><a href="https://windows10spotlight.com/" target="_blank" class="credit">
@@ -361,12 +393,36 @@
                 alert("URLをコピーして共有してね！\n" + window.location.href);
             }
         }
+        // すでにあるSNS共有などのコードの下に追加
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('time').textContent = `${hours}:${minutes}`;
+        }
+
+        async function updateWeather() {
+            try {
+                // 東京の座標を例にしています
+                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=35.6895&longitude=139.6917&current_weather=true');
+                const data = await res.json();
+                const temp = data.current_weather.temperature;
+                document.getElementById('temp').textContent = `${Math.round(temp)}°C`;
+            } catch (e) {
+                console.error("天気情報の取得に失敗しました");
+            }
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+        updateWeather();
     </script>
 
 </body>
 
 
 </html>
+
 
 
 
